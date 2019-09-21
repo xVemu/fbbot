@@ -2,9 +2,15 @@
 
 const fs = require("fs");
 const login = require("facebook-chat-api");
+const readline = require('readline');
 
 const funcs = [`wiadomości`, `aktualności`, `everyone`, `mojagrupa`, `kotek`, `piesek`, `help`, `dodaj`, `usuń`, `mc`].sort();
 const funcsObj = {};
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 exports.funcs = funcs;
 exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
@@ -13,8 +19,21 @@ funcs.map((v) => {
     funcsObj[v] = require('./modules/' + v);
 });
 
-login({appState: JSON.parse(fs.readFileSync('fakeAccount.json', 'utf8'))}, (err, api) => {
-    if(err) return console.error(err);
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}, (err, api) => {
+    if(err) {
+        switch (err.error) {
+            case 'login-approval':
+                console.log('Enter code > ');
+                rl.on('line', (line) => {
+                    err.continue(line);
+                    rl.close();
+                });
+                break;
+            default:
+                console.error(err);
+        }
+        return;
+    }
     api.setOptions({selfListen: true, logLevel: "silent"});
     api.listen((err, message) => {
         if(err) console.error(err);

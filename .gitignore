@@ -1,6 +1,7 @@
 node_modules
-fakeAccount.json
+realaccount.json
 .vscode/launch.json
 .vscode/settings.json
 appstate.json
 start.sh
+priviliges.json

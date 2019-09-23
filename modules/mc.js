@@ -7,9 +7,11 @@ module.exports = (fn) => {
         if(err) console.log(err);
         const info = JSON.parse(body);
         let msg = `Gracze: ${info[`players`][`online`]}\n`;
-        info[`players`][`list`].map((v) => {
-            msg += ` ${v}\n`
-        });
+        if(info[`players`][`online`] > 0) {
+            info[`players`][`list`].map((v) => {
+                msg += ` ${v}\n`
+            });
+        }
         fn(msg);
     });
 }

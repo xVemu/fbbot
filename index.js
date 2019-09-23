@@ -13,7 +13,11 @@ var rl = readline.createInterface({
 });
 
 exports.funcs = funcs;
-exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
+if(fs.existsSync("priviliges.json")) {
+    exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
+} else {
+    exports.permission = [];
+}
 
 funcs.map((v) => {
     funcsObj[v] = require('./modules/' + v);

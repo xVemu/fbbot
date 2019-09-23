@@ -3,10 +3,10 @@
 const permission = require('../index').permission;
 
 module.exports = (fn, message, api) => {
-    console.log(permission);
     if(permission.includes(message.senderID)) {
         api.getThreadInfo(message.threadID, (err, info) => {
             if(err) console.log(err);
+            console.log(permission);
             const participantIDs = info.participantIDs;
             let mentions = [];
             participantIDs.map((v) => {

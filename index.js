@@ -4,7 +4,7 @@ const fs = require("fs");
 const login = require("facebook-chat-api");
 const readline = require('readline');
 
-const funcs = [`wiadomości`, `aktualności`, `everyone`, `mojagrupa`, `kotek`, `piesek`, `help`, `dodaj`, `usuń`, `mc`].sort();
+const funcs = [`wiadomości`, `aktualności`, `everyone`, `mojagrupa`, `kotek`, `piesek`, `help`, `dodaj`, `usuń`, `mc`, `systemy`].sort();
 const funcsObj = {};
 
 var rl = readline.createInterface({

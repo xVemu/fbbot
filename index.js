@@ -13,17 +13,14 @@ var rl = readline.createInterface({
 });
 
 exports.funcs = funcs;
-if(fs.existsSync("priviliges.json")) {
-    exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
-} else {
-    exports.permission = [];
-}
+if(fs.existsSync("priviliges.json")) exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
+else exports.permission = [];
 
 funcs.map((v) => {
     funcsObj[v] = require('./modules/' + v);
 });
 
-login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}, (err, api) => {
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/*{email: "kamilox26@gmail.com", password: ""}*/, (err, api) => {
     if(err) {
         switch (err.error) {
             case 'login-approval':
@@ -38,6 +35,7 @@ login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}, (err, ap
         }
         return;
     }
+    if(!fs.existsSync("appstate.json")) fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
     api.setOptions({selfListen: true, logLevel: "silent"});
     api.listen((err, message) => {
         if(err) console.error(err);

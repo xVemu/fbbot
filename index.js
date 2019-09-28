@@ -20,7 +20,7 @@ funcs.map((v) => {
     funcsObj[v] = require('./modules/' + v);
 });
 
-login(/*{appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}*/{email: "kamilox26@gmail.com", password: "FacebookChujCiNaJD"}, (err, api) => {
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/*{email: "kamilox26@gmail.com", password: ""}*/, (err, api) => {
     if(err) {
         switch (err.error) {
             case 'login-approval':

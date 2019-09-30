@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = () => {
     let form = {
-        "PIN": 091774,
+        "PIN": "091774",
         "TokenKey": "TA103B",
         "AppVersion": "18.4.1.388",
         "DeviceId": "b0f4b169-48fd-4570-bbfb-0108e7ca2d1b",

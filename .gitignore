@@ -3,3 +3,4 @@ fakeaccount.json
 .vscode/launch.json
 .vscode/settings.json
 start.sh
+.eslintrc.json

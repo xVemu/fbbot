@@ -20,7 +20,7 @@ funcs.map((v) => {
     funcsObj[v] = require('./modules/' + v);
 });
 
-login({appState: JSON.parse(fs.readFileSync('fakeaccount.json', 'utf8'))}/*{email: "kamilox26@gmail.com", password: ""}*/, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/*{email: "kamilox26@gmail.com", password: ""}*/, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if(err) {
         switch (err.error) {
             case 'login-approval':

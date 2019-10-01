@@ -4,23 +4,27 @@ const fs = require("fs");
 const login = require("facebook-chat-api");
 const readline = require('readline');
 
-const funcs = [`wiadomości`, `aktualności`, `everyone`, `mojagrupa`, `kotek`, `piesek`, `help`, `dodaj`, `usuń`, `mc`, `systemy`].sort();
-const funcsObj = {};
+let funcsObj = {};
+let funcs = [];
 
 var rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
+fs.readdir("src/modules", (err, files) => {
+    if(err) console.error(err);
+    files.map((v) => {
+        funcsObj[v.replace(".js", "")] = require('./modules/' + v.replace(".js", ""));
+        funcs.push(v.replace(".js", ""));
+    });
+})
+
 exports.funcs = funcs;
 if(fs.existsSync("priviliges.json")) exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
 else exports.permission = [];
 
-funcs.map((v) => {
-    funcsObj[v] = require('./modules/' + v);
-});
-
-login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/*{email: "kamilox26@gmail.com", password: ""}*/, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/* {email: "kamilox26@gmail.com", password: "FacebookChujCiNaJD"} */, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if(err) {
         switch (err.error) {
             case 'login-approval':

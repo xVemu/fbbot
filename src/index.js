@@ -24,7 +24,7 @@ exports.funcs = funcs;
 if(fs.existsSync("priviliges.json")) exports.permission = JSON.parse(fs.readFileSync('priviliges.json'));
 else exports.permission = [];
 
-login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/* {email: "kamilox26@gmail.com", password: "FacebookChujCiNaJD"} */, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))},/*{email: "kamilox26@gmail.com", password: ""},*/ {logLevel: "http", selfListen: true, forceLogin: true, userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3930.0 Safari/537.36"}, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if(err) {
         switch (err.error) {
             case 'login-approval':
@@ -40,7 +40,6 @@ login({appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8'))}/* {email:
         return;
     }
     if(!fs.existsSync("appstate.json")) fs.writeFileSync('appstate.json', JSON.stringify(api.getAppState()));
-    api.setOptions({selfListen: true, logLevel: "silent"});
     api.listen((err, message) => {
         if(err) console.error(err);
         if(message.body.startsWith("!")) {

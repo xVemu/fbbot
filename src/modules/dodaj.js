@@ -1,7 +1,7 @@
 `use strict`;
 
-const {permission} = require('../index');
-const fs = require('fs');
+const {permission} = require('../index'),
+    fs = require('fs');
 
 module.exports = (fn, {senderID, mentions, threadID}, api, [, splitf]) => {
     if(senderID == api.getCurrentUserID()) {

@@ -1,6 +1,6 @@
 `use strict`;
 
-const {permission} = require('../index');
+const {permission} = require(`../index`);
 
 module.exports = (fn, {threadID, senderID}, api) => {
     if(permission.includes(senderID)) {
@@ -14,4 +14,4 @@ module.exports = (fn, {threadID, senderID}, api) => {
             fn({body: `WSTAWAĆ!`, mentions: mentions});
         });
     }
-}
+};

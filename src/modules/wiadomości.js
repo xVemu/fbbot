@@ -5,4 +5,4 @@ module.exports = (fn, {threadID}, api) => {
         if(err) console.error(err);
         fn(`Odkąd mnie dodano napisano ${messageCount.toString()} wiadomości`);
     });
-}
+};

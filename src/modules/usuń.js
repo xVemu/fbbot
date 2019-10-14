@@ -1,7 +1,7 @@
 `use strict`;
 
-const {permission} = require('../index'),
-    fs = require('fs');
+const {permission} = require(`../index`),
+    fs = require(`fs`);
 
 module.exports = (fn, {senderID, mentions, threadID}, api, [, splitf]) => {
     if(senderID == api.getCurrentUserID()) {
@@ -13,15 +13,15 @@ module.exports = (fn, {senderID, mentions, threadID}, api, [, splitf]) => {
                         permission.splice(permission.indexOf(v), 1);
                     }
                 });
-                fs.writeFileSync('priviliges.json', JSON.stringify(permission));
+                fs.writeFileSync(`priviliges.json`, JSON.stringify(permission));
                 fn(`Zabroniono wszystkim na everyone`);
             });
         } else if (mentions[0] != undefined) {
             if((permission.includes(mentions[0].id))) {
                 permission.splice(permission.indexOf(mentions[0].id), 1);
-                fs.writeFileSync('priviliges.json', JSON.stringify(permission));
+                fs.writeFileSync(`priviliges.json`, JSON.stringify(permission));
                 fn(`Zabroniono na everyone`);
             }
         }
     }
-}
+};

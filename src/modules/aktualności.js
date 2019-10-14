@@ -1,6 +1,6 @@
 'use strict';
-const request = require('request'),
-    cheerio = require('cheerio');
+const request = require(`request`),
+    cheerio = require(`cheerio`);
 
 module.exports = (fn) => {
     request(`https://zsme.tarnow.pl`, (error, _response, body) => {
@@ -8,4 +8,4 @@ module.exports = (fn) => {
         const $ = cheerio.load(body);
         fn($(`.article-entry`).first().text());
     });
-}
+};

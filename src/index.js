@@ -29,7 +29,7 @@ else exports.permission = [];
 if(!fs.existsSync(`appstate.json`)) {
     notexist = true;
     appState = {email: `kamilox26@gmail.com`, password: ``};
-} else appState = {appState: JSON.parse(fs.readFileSync(`fakeaccount.json`, `utf8`))};
+} else appState = {appState: JSON.parse(fs.readFileSync(`appstate.json`, `utf8`))};
 
 login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent:`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3930.0 Safari/537.36`}, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if(err) {

@@ -3,18 +3,14 @@
 const groupone = [`100004900923817`, `100009846706909`, `100009304950970`, `100004662165020`, `100005704654687`, `100021892282965`, `100005270194547`, `100004966775033`, `100005419266503`, `100006010188239`, `100007376829609`, `100005513853683`, `100011659432878`, `100020587930355`, `100012410859011`, `100003748210938`, `100005300310706`];
 const grouptwo = [`100037840308335`, `100007015050007`, `100007899970435`, `100013726270668`, `100033597763520`, `100006479243236`, `100013572581175`, `100011698085384`, `100016122521604`, `100008824489014`, `100012232033757`, `100005685062936`, `100030823742949`, `100014061709487`, `100006510256997`, `100014109676862`];
 
-module.exports = (fn, {senderID}) => {
-    if (groupone.includes(senderID)) {
-        let mentions = [];
-        groupone.map((v) => {
-            mentions.push({tag: `WSTAWAĆ!`, id: v});
-        });
-        fn({body: `WSTAWAĆ!`, mentions: mentions});
-    } else if (grouptwo.includes(senderID)) {
-        let mentions = [];
-        groupone.map((v) => {
-            mentions.push({tag: `WSTAWAĆ!`, id: v});
-        });
-        fn({body: `WSTAWAĆ!`, mentions: mentions});
-    }
+module.exports = ({senderID}) => {
+    return new Promise(resolve => {
+        if (groupone.includes(senderID)) {
+            const mentions = groupone.map(v => ({tag: `WSTAWAĆ!`, id: v}));
+            resolve({body: `WSTAWAĆ!`, mentions: mentions});
+        } else if (grouptwo.includes(senderID)) {
+            const mentions = grouptwo.map(v => ({tag: `WSTAWAĆ!`, id: v}));
+            resolve({body: `WSTAWAĆ!`, mentions: mentions});
+        }
+    });
 };

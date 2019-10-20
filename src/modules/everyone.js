@@ -2,16 +2,15 @@
 
 const {permission} = require(`../index`);
 
-module.exports = (fn, {threadID, senderID}, api) => {
-    if(permission.includes(senderID)) {
-        api.getThreadInfo(threadID, (err, {participantIDs}) => {
-            if(err) console.log(err);
-            console.log(permission);
-            let mentions = [];
-            participantIDs.map((v) => {
-                mentions.push({tag: `WSTAWAĆ!`, id: v});
+module.exports = ({threadID, senderID}, api) => {
+    return new Promise(resolve => {
+        if(permission.includes(senderID)) {
+            api.getThreadInfo(threadID, (err, {participantIDs}) => {
+                if(err) console.log(err);
+                console.log(permission);
+                const mentions = participantIDs.map(v => ({tag: `WSTAWAĆ!`, id: v}));
+                resolve({body: `WSTAWAĆ!`, mentions: mentions});
             });
-            fn({body: `WSTAWAĆ!`, mentions: mentions});
-        });
-    }
+        }
+    });
 };

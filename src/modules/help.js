@@ -2,10 +2,9 @@
 
 const {funcs} = require(`../index`);
 
-module.exports = (fn) => {
-    let msg = ``;
-    funcs.map((v) => {
-        msg += `!` + v + `\n`;
+module.exports = () => {
+    return new Promise(resolve => {
+        const msg = funcs.reduce((acc, value) => acc += `!${value}\n`, ``);
+        resolve(msg);
     });
-    fn(msg);
 };

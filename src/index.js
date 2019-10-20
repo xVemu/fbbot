@@ -16,7 +16,7 @@ const rl = readline.createInterface({
 
 fs.readdir(`src/modules`, (err, files) => {
     if(err) console.error(err);
-    files.map((v) => {
+    files.map(v => {
         funcsObj[v.replace(`.js`, ``)] = require(`./modules/` + v.replace(`.js`, ``));
         funcs.push(v.replace(`.js`, ``));
     });
@@ -36,7 +36,7 @@ login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent
         switch (err.error) {
         case `login-approval`:
             console.log(`Enter code > `);
-            rl.on(`line`, (line) => {
+            rl.on(`line`, line => {
                 err.continue(line);
                 rl.close();
             });
@@ -47,12 +47,13 @@ login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent
         return;
     }
     if(notexist) fs.writeFileSync(`appstate.json`, JSON.stringify(api.getAppState()));
-    api.listen((err, message) => {
+    api.listen(async (err, message) => {
         if(err) console.error(err);
         if(message.body.startsWith(`!`)) {
             const split = message.body.split(` `);
             try {
-                funcsObj[split[0].substr(1).toLowerCase()](textMSG => api.sendMessage(textMSG, message.threadID), message, api, split);
+                const msg = await funcsObj[split[0].substr(1).toLowerCase()](message, api, split);
+                api.sendMessage(msg, message.threadID);
             }
             catch (e) {
                 if(!(e.message == `funcsObj[split[0].substr(...).toLowerCase(...)] is not a function`)) console.error(e);

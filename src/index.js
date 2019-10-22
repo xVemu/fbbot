@@ -61,4 +61,3 @@ login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent
         }
     });
 });
-console.log(this.permission);

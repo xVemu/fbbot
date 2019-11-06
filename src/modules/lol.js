@@ -24,6 +24,9 @@ module.exports = async (_message, _api, split) => {
             case `RANKED_FLEX_TT`:
                 queue = `Flex 3v3: `;
                 break;
+            case `RANKED_TFT`:
+                queue = `TFT: `;
+                break;
             default:
                 return acc;
         }

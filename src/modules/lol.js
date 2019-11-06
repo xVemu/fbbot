@@ -1,6 +1,6 @@
 `use strict`;
 
-const LeagueJS = require(`LeagueJS`);
+const LeagueJS = require(`leaguejs`);
 
 
 const league_api_key = `RGAPI-56dc0a6d-5706-48bb-83b5-02ebbd97c387`,

@@ -34,15 +34,15 @@ if(!fs.existsSync(`appstate.json`)) {
 login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent:`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3930.0 Safari/537.36`}, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if(err) {
         switch (err.error) {
-        case `login-approval`:
-            console.log(`Enter code > `);
-            rl.on(`line`, line => {
-                err.continue(line);
-                rl.close();
-            });
-            break;
-        default:
-            console.error(err);
+            case `login-approval`:
+                console.log(`Enter code > `);
+                rl.on(`line`, line => {
+                    err.continue(line);
+                    rl.close();
+                });
+                break;
+            default:
+                console.error(err);
         }
         return;
     }
@@ -56,7 +56,10 @@ login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent
                 api.sendMessage(msg, message.threadID);
             }
             catch (e) {
-                if(!(e.message == `funcsObj[split[0].substr(...).toLowerCase(...)] is not a function`)) console.error(e);
+                if(!(e.message == `funcsObj[split[0].substr(...).toLowerCase(...)] is not a function`)) {
+                    console.log(e);
+                    api.sendMessage(`Wystąpił błąd`, message.threadID);
+                }
             }
         }
     });

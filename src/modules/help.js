@@ -2,9 +2,8 @@
 
 const {funcs} = require(`../index`);
 
-module.exports = () => {
-    return new Promise(resolve => {
-        const msg = funcs.reduce((acc, value) => acc += `!${value}\n`, ``);
-        resolve(msg);
-    });
-};
+module.exports = async () => `!` + funcs.join(`\n!`);
+// {
+//     const msg = funcs.join(`\n!`);
+//     return `!` + msg;
+// };

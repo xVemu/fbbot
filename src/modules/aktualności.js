@@ -1,13 +1,8 @@
 'use strict';
-const request = require(`request`),
+const request = require(`request-promise-native`),
     cheerio = require(`cheerio`);
 
-module.exports = () => {
-    return new Promise(resolve => {
-        request(`https://zsme.tarnow.pl`, (error, _response, body) => {
-            if (error) console.log(error);
-            const $ = cheerio.load(body);
-            resolve($(`.article-entry`).first().text());
-        });
-    });
+module.exports = async () => {
+    const $ = await request({ uri: `https://zsme.tarnow.pl`, transform: body => cheerio.load(body)});
+    return $(`.article-entry`).first().text();
 };

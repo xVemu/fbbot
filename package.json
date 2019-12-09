@@ -4,18 +4,19 @@
   "description": "Simple Facebook Chat Bot",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Vemu",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "facebook-chat-api": "^1.6.1",
+    "facebook-chat-api": "github:Schmavery/facebook-chat-api",
     "leaguejs": "^2.1.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"
   },
   "devDependencies": {
-    "eslint": "^6.5.1"
+    "eslint": "^6.5.1",
+    "mocha": "^6.2.2"
   }
 }

@@ -17,8 +17,9 @@ const rl = readline.createInterface({
 fs.readdir(`src/modules`, (err, files) => {
     if(err) console.error(err);
     files.map(v => {
-        funcsObj[v.replace(`.js`, ``)] = require(`./modules/` + v.replace(`.js`, ``));
-        funcs.push(v.replace(`.js`, ``));
+        const vReplace = v.replace(`.js`, ``);
+        funcsObj[vReplace] = require(`./modules/` + vReplace);
+        funcs.push(vReplace);
     });
 });
 
@@ -47,9 +48,9 @@ login(appState, {logLevel: `http`, selfListen: true, forceLogin: true, userAgent
         return;
     }
     if(notexist) fs.writeFileSync(`appstate.json`, JSON.stringify(api.getAppState()));
-    api.listen(async (err, message) => {
+    api.listenMqtt(async (err, message) => {
         if(err) console.error(err);
-        if(message.body.startsWith(`!`)) {
+        if(message.body != undefined && message.body.startsWith(`!`)) {
             const split = message.body.split(` `);
             try {
                 const msg = await funcsObj[split[0].substr(1).toLowerCase()](message, api, split);

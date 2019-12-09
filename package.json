@@ -4,6 +4,7 @@
   "description": "Simple Facebook Chat Bot",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "mocha"
   },
   "author": "Vemu",

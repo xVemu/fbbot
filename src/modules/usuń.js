@@ -1,13 +1,13 @@
 `use strict`;
 
-const {permission} = require(`../index`),
+const { permission } = require(`../index`),
     util = require(`util`),
     fs = require(`fs`).promises;
 
 module.exports = async (message, api, split) => {
     const { senderID, mentions, threadID } = message;
     if (senderID == api.getCurrentUserID() || `100038916831294`) {
-        if (split[1].toLowerCase() == `everyone`) {
+        if (split[0].toLowerCase() == `everyone`) {
             const info = await util.promisify(api.getThreadInfo)(threadID);
             info.participantIDs.forEach(v => {
                 if (permission.includes(v)) permission.splice(permission.indexOf(v), 1);

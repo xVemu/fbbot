@@ -14,7 +14,8 @@
     "facebook-chat-api": "github:Schmavery/facebook-chat-api",
     "leaguejs": "^2.1.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.8"
+    "request-promise-native": "^1.0.8",
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^6.5.1",

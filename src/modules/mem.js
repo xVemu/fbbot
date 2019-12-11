@@ -9,11 +9,11 @@ module.exports = async (message, api) => {
     const $ = await request({ uri: `https://kwejk.pl/losowy`, transform: body => cheerio.load(body) });
     const text = $(`.box.fav.picture.full`).children(`.content`).children(`h1`).text();
     const imgurl = $(`.full-image`).attr(`src`);
-    if(imgurl === undefined) return `Wystąpił błąd`;
+    if (imgurl === undefined) return `Wystąpił błąd`;
     else {
         const imgbody = await request({ uri: imgurl, encoding: `binary` });
         await fsp.writeFile(`meme.png`, imgbody, `binary`);
-        const msg = {attachment: fs.createReadStream(`meme.png`), body: text};
+        const msg = { attachment: fs.createReadStream(`meme.png`), body: text };
         fsp.unlink(`meme.png`);
         end();
         return msg;

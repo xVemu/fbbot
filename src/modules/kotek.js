@@ -9,7 +9,7 @@ module.exports = async (message, api) => {
     const [json] = await request({ uri: `https://api.thecatapi.com/v1/images/search`, followAllRedirects: true, json: true });
     const imgbody = await request({ uri: json.url, encoding: `binary` });
     await fsp.writeFile(`kitty.png`, imgbody, `binary`);
-    const attachments = {attachment: fs.createReadStream(`kitty.png`)};
+    const attachments = { attachment: fs.createReadStream(`kitty.png`) };
     await fsp.unlink(`kitty.png`);
     end();
     return attachments;

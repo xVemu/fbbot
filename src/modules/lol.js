@@ -44,7 +44,6 @@ ${ranks}
 const timeConverter = UNIX_timestamp => {
     const a = new Date(UNIX_timestamp),
         months = [`Sty`, `Lut`, `Mar`, `Kwi`, `Maj`, `Cze`, `Lip`, `Sie`, `Wrz`, `Paź`, `Lis`, `Gru`],
-        { getDate, getMonth, getFullYear, getHours, getMinutes, getSeconds } = a,
-        time = getDate() + ` ` + months[getMonth()] + ` ` + getFullYear() + ` ` + getHours() + `:` + getMinutes() + `:` + getSeconds();
+        time = a.getDate() + ` ` + months[a.getMonth()] + ` ` + a.getFullYear() + ` ` + a.getHours() + `:` + a.getMinutes() + `:` + a.getSeconds();
     return time;
 };

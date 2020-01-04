@@ -3,6 +3,5 @@ fakeaccount.json
 .vscode/launch.json
 .vscode/settings.json
 start.sh
-.eslintrc.json
 cert.json
 priviliges.json

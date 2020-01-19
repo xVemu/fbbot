@@ -8,5 +8,5 @@ module.exports = async (message, api, split) => {
         count += parseInt(split);
         await fs.writeFile(`kiju.json`, count);
     }
-    return count.toString();
+    return `Kiju był w środku ${count} razy`;
 };

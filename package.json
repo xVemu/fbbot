@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "facebook-chat-api": "github:Schmavery/facebook-chat-api",
+    "facebook-chat-api": "^1.7.0",
     "leaguejs": "^2.1.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8",

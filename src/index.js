@@ -17,9 +17,11 @@ const rl = readline.createInterface({
 fs.readdir(`src/modules`, (err, files) => {
     if (err) console.error(err);
     files.map(v => {
-        const vReplace = v.replace(`.js`, ``);
-        funcsObj[vReplace] = require(`./modules/` + vReplace);
-        funcs.push(vReplace);
+        if (v.endsWith(`.js`)) {
+            const vReplace = v.replace(`.js`, ``);
+            funcsObj[vReplace] = require(`./modules/` + vReplace);
+            funcs.push(vReplace);
+        }
     });
 });
 
@@ -47,6 +49,7 @@ login(appState, { logLevel: `http`, selfListen: true, forceLogin: true, userAgen
         }
         return;
     }
+    console.log(`ready`);
     if (notexist) fs.writeFileSync(`appstate.json`, JSON.stringify(api.getAppState()));
     api.listenMqtt(async (err, message) => {
         if (err) console.error(err);

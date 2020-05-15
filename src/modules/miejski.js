@@ -14,8 +14,9 @@ module.exports = async (_message, _api, split) => {
     } else {
         $ = await request({ uri: `https://www.miejski.pl/losuj`, followAllRedirects: true, transform: body => cheerio.load(body) });
     }
-    const word = $(`h1`).text();
-    const definition = $(`.definition.summary`).text();
-    const example = $(`.example`).text();
+    const article = $(`article`).first();
+    const word = article.find(`h1`).first().text();
+    const definition = article.find(`p`).first().text();
+    const example = article.find(`blockquote`).first().text();
     return `${word}\n${definition}\n${example}`;
 };

@@ -1,8 +1,9 @@
 'use strict';
-const request = require(`request-promise-native`),
+const fetch = require(`node-fetch`),
     cheerio = require(`cheerio`);
 
 module.exports = async () => {
-    const $ = await request({ uri: `https://zsme.tarnow.pl`, transform: body => cheerio.load(body) });
+    const response = await fetch(`https://zsme.tarnow.pl`);
+    const $ = cheerio.load(await response.text());
     return $(`.article-entry`).first().text();
 };

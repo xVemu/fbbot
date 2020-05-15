@@ -34,7 +34,7 @@ if (!fs.existsSync(`appstate.json`)) {
     appState = { email: `kamilox26@gmail.com`, password: `` };
 } else appState = { appState: JSON.parse(fs.readFileSync(`appstate.json`, `utf8`)) };
 
-login(appState, { logLevel: `http`, selfListen: true, forceLogin: true, userAgent: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3930.0 Safari/537.36` }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login(appState, { logLevel: `http`, selfListen: true, forceLogin: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if (err) {
         switch (err.error) {
             case `login-approval`:

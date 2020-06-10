@@ -2,9 +2,8 @@ node_modules
 fakeaccount.json
 start.sh
 cert.json
-priviliges.json
-kiju.json
 .nvmrc
 restart.sh
 screenlog.0
 .DS_Store
+config.json

@@ -2,11 +2,10 @@
 
 const fs = require(`fs`),
     login = require(`facebook-chat-api`),
-    readline = require(`readline`);
+    readline = require(`readline`),
+    { prefix, account } = require(`../config.json`);
 
-let funcsObj = {},
-    funcs = [],
-    notexist,
+let notexist,
     appState;
 
 const rl = readline.createInterface({
@@ -14,27 +13,15 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-fs.readdir(`src/modules`, (err, files) => {
-    if (err) console.error(err);
-    files.map(v => {
-        if (v.endsWith(`.js`)) {
-            const vReplace = v.replace(`.js`, ``);
-            funcsObj[vReplace] = require(`./modules/` + vReplace);
-            funcs.push(vReplace);
-        }
-    });
-});
+const cmdFiles = fs.readdirSync(`src/modules`).filter(file => file.endsWith(`.js`));
 
-exports.funcs = funcs;
-if (fs.existsSync(`priviliges.json`)) exports.permission = JSON.parse(fs.readFileSync(`priviliges.json`));
-else exports.permission = [];
 
 if (!fs.existsSync(`appstate.json`)) {
     notexist = true;
     appState = { email: `kamilox26@gmail.com`, password: `` };
-} else appState = { appState: JSON.parse(fs.readFileSync(`appstate.json`, `utf8`)) };
+} else appState = { appState: JSON.parse(fs.readFileSync(account, `utf8`)) };
 
-login(appState, { logLevel: `http`, selfListen: true, forceLogin: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login(appState, { selfListen: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if (err) {
         switch (err.error) {
             case `login-approval`:
@@ -49,22 +36,32 @@ login(appState, { logLevel: `http`, selfListen: true, forceLogin: true }, (err, 
         }
         return;
     }
-    console.log(`ready`);
+    api.cmds = new Map();
+    for (const file of cmdFiles) {
+        const cmd = require(`./modules/${file}`);
+        api.cmds.set(cmd.name, cmd);
+    }
     if (notexist) fs.writeFileSync(`appstate.json`, JSON.stringify(api.getAppState()));
-    api.listenMqtt(async (err, message) => {
-        if (err) console.error(err);
-        if (message.body != undefined && message.body.startsWith(`!`)) {
-            const split = message.body.split(` `);
-            try {
-                const msg = await funcsObj[split[0].substr(1).toLowerCase()](message, api, split.slice(1));
-                api.sendMessage(msg, message.threadID);
-            }
-            catch (e) {
-                if (!(e.message == `funcsObj[split[0].substr(...).toLowerCase(...)] is not a function`)) {
-                    console.log(e);
-                    api.sendMessage(`Wystąpił błąd`, message.threadID);
-                }
-            }
+    api.listenMqtt((err, msg) => {
+        if (err) return console.error(err);
+        if (!msg.body || !msg.body.startsWith(prefix)) return;
+        const args = msg.body.slice(prefix.length).match(/[^\s"']+|"([^"]*)"/gmi).map(v => v.replace(/["']/g, ``));
+        const cmdName = args.shift().toLowerCase();
+        const cmd = api.cmds.get(cmdName) || api.cmds.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+        if (!cmd) return;
+        if (cmd.groupOnly) return api.sendMessage(`Komenda działa tylko w grupach`, msg.threadID, null, msg.messageID);
+        if (cmd.args > 0 && args.length < cmd.args) {
+            let reply = `Nie podałeś poprawnych argumentów!`;
+
+            if (cmd.usage) reply += `\n Poprawne użycie to: ${prefix}${cmd.name} ${cmd.usage}`;
+            return api.sendMessage(reply, msg.threadID, null, msg.messageID);
         }
-    });
+        try {
+            cmd.execute(api, msg, args);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    );
 });

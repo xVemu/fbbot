@@ -2,7 +2,6 @@
     "search.exclude": {
         "**/bower_components": true
     },
-    "remote.WSL.fileWatcher.polling": true,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -10,7 +9,6 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "README.md": true,
-        "LICENSE": true,
-        "coverage": true
+        "LICENSE": true
     }
 }

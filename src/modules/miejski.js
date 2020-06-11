@@ -36,5 +36,5 @@ module.exports = {
             console.error(e);
             api.sendMessage(`Wystąpił błąd!`, threadID, null, messageID);
         }
-    } 
+    }
 };

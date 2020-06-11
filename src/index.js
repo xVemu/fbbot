@@ -45,7 +45,9 @@ login(appState, { selfListen: true }, (err, api) => { //test account id : 100039
     api.listenMqtt((err, msg) => {
         if (err) return console.error(err);
         if (!msg.body || !msg.body.startsWith(prefix)) return;
-        const args = msg.body.slice(prefix.length).match(/[^\s"']+|"([^"]*)"/gmi).map(v => v.replace(/["']/g, ``));
+        const argu = msg.body.slice(prefix.length).match(/[^\s"']+|"([^"]*)"/gmi);
+        if (!argu) return;
+        const args = argu.map(v => v.replace(/["`]/g, ``));
         const cmdName = args.shift().toLowerCase();
         const cmd = api.cmds.get(cmdName) || api.cmds.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
         if (!cmd) return;

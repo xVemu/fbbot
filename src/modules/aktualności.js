@@ -1,5 +1,5 @@
 'use strict';
-const axios = require(`axios`),
+const axios = require(`axios`).default,
     cheerio = require(`cheerio`);
 
 module.exports = {

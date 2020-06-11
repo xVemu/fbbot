@@ -1,6 +1,6 @@
 `use strict`;
 
-const axios = require(`axios`),
+const axios = require(`axios`).default,
     fsp = require(`fs`).promises,
     fs = require(`fs`);
 

@@ -1,16 +1,23 @@
 `use strict`;
 
-const request = require(`request-promise-native`),
+const axios = require(`axios`),
     fsp = require(`fs`).promises,
     fs = require(`fs`);
 
-module.exports = async (message, api) => {
-    const end = api.sendTypingIndicator(message.threadID);
-    const [json] = await request({ uri: `https://api.thedogapi.com/v1/images/search`, followAllRedirects: true, json: true });
-    const imgbody = await request({ uri: json.url, encoding: `binary` });
-    await fsp.writeFile(`doggy.png`, imgbody, `binary`);
-    const attachments = { attachment: fs.createReadStream(`doggy.png`) };
-    await fsp.unlink(`doggy.png`);
-    end();
-    return attachments;
+module.exports = {
+    name: `piesek`,
+    description: `Wysyła losowe zdjęcie kotka.`,
+    args: 0,
+    groupOnly: false,
+    aliases: [`doggo`, `p`],
+    async execute(api, msg) {
+        const end = api.sendTypingIndicator(msg.threadID);
+        const { data: { 0: {url} } } = await axios.get(`https://api.thedogapi.com/v1/images/search`);
+        const attachment = await axios.get(url, { responseType: `arraybuffer` });
+        await fsp.writeFile(`doggo.jpg`, attachment.data);
+        const attachments = { attachment: fs.createReadStream(`doggo.jpg`) };
+        end();
+        api.sendMessage(attachments, msg.threadID);
+        await fsp.unlink(`doggo.jpg`);
+    }
 };

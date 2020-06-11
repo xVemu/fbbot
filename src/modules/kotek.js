@@ -1,29 +1,24 @@
 `use strict`;
 
-const request = require(`request-promise-native`),
+const axios = require(`axios`).default,
     fsp = require(`fs`).promises,
     fs = require(`fs`);
 
-module.exports = async (message, api) => {
-    const end = api.sendTypingIndicator(message.threadID);
-    const [json] = await request({ uri: `https://api.thecatapi.com/v1/images/search`, followAllRedirects: true, json: true });
-    const imgbody = await request({ uri: json.url, encoding: `binary` });
-    await fsp.writeFile(`kitty.png`, imgbody, `binary`);
-    const attachments = { attachment: fs.createReadStream(`kitty.png`) };
-    await fsp.unlink(`kitty.png`);
-    end();
-    return attachments;
+
+module.exports = {
+    name: `kotek`,
+    description: `Wysyła losowe zdjęcie kotka.`,
+    args: 0,
+    groupOnly: false,
+    alises: [`kitty`, `k`],
+    async execute(api, msg) {
+        const end = api.sendTypingIndicator(msg.threadID);
+        const { data: { 0: { url } } } = await axios.get(`https://api.thecatapi.com/v1/images/search`);
+        const attachment = await axios.get(url, { responseType: `arraybuffer` });
+        await fsp.writeFile(`kitty.jpg`, attachment.data);
+        const attachments = { attachment: fs.createReadStream(`kitty.jpg`) };
+        end();
+        api.sendMessage(attachments, msg.threadID);
+        await fsp.unlink(`kitty.jpg`);
+    }
 };
-// return new Promise(resolve => {
-//     const end = api.sendTypingIndicator(message.threadID);
-//     request({url: `https://api.thecatapi.com/v1/images/search`, followAllRedirects: true}, (error, _response, body) => {
-//         if(error) console.log(error);
-//         const [json] = JSON.parse(body);
-//         request(json.url).pipe(fs.createWriteStream(`kitty.png`)).on(`close`, () => {
-//             const attachments = {attachment: fs.createReadStream(`kitty.png`)};
-//             resolve(attachments);
-//             fs.unlinkSync(`kitty.png`);
-//             end();
-//         });
-//     });
-// });

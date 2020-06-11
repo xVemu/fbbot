@@ -1,16 +1,24 @@
 `use strict`;
 
-const request = require(`request-promise-native`),
-    fsp = require(`fs`).promises,
-    fs = require(`fs`);
+const axios = require(`axios`).default,
+    fs = require(`fs`),
+    fsp = require(`fs`).promises;
 
-module.exports = async (message, api) => {
-    const end = api.sendTypingIndicator(message.threadID);
-    const json = await request({ uri: `https://randomfox.ca/floof/`, json: true });
-    const imgbody = await request({ uri: json.image, encoding: `binary` });
-    await fsp.writeFile(`foxy.png`, imgbody, `binary`);
-    const attachments = { attachment: fs.createReadStream(`foxy.png`) };
-    await fsp.unlink(`foxy.png`);
-    end();
-    return attachments;
+
+module.exports = {
+    name: `lisek`,
+    description: `Wysyła losowe zdjęcie lisa.`,
+    args: 0,
+    groupOnly: false,
+    alises: [`foxy`, `l`],
+    async execute(api, msg) {
+        const end = api.sendTypingIndicator(msg.threadID);
+        const { data: { image } } = await axios.get(`https://randomfox.ca/floof/`);
+        const attachment = await axios.get(image, {responseType: `arraybuffer`});
+        await fsp.writeFile(`foxy.jpg`, attachment.data);
+        const attachments = { attachment: fs.createReadStream(`foxy.jpg`) };
+        end();
+        api.sendMessage(attachments, msg.threadID);
+        await fsp.unlink(`foxy.jpg`);
+    }
 };

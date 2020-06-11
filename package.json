@@ -10,12 +10,10 @@
   "author": "Vemu",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "facebook-chat-api": "^1.8.0",
     "leaguejs": "^2.1.2",
-    "node-fetch": "^2.6.0",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.8",
     "utf8": "^3.0.0"
   },
   "devDependencies": {

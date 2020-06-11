@@ -1,16 +1,25 @@
 `use strict`;
 
-const request = require(`request-promise-native`);
+const axios = require(`axios`).default;
 
-module.exports = async () => {
-    const json = await request({ uri: `https://api.mcsrvstat.us/2/vemu.ddns.net`, json: true });
-    try {
-        const { players: { online }, players: { list = undefined } } = json;
-        let msg = `Gracze: ${online}\n`;
-        if (online > 0) msg += list.reduce((acc, value) => acc += ` ${value}\n`, ``);
-        return msg;
-    } catch (e) {
-        console.error(e);
-        return `Serwer wyłączony!`;
+
+module.exports = {
+    name: `mc`,
+    description: `Wysyła informacje o serwerze Minecraft`,
+    args: 0,
+    groupOnly: false,
+    async execute(api, msg) {
+        const {threadID, messageID} = msg
+        try {
+            const { data } = await axios(`https://api.mcsrvstat.us/2/vemu.ddns.net`);
+            if (!data.online) return api.sendMessage(`Serwer wyłączony!`, threadID, null, messageID);
+            const { players: { online }, players: { list = undefined } } = data;
+            let msg = `Gracze: ${online}\n`;
+            if (online > 0) msg += list.reduce((acc, value) => acc += ` ${value}\n`, ``);
+            return msg;
+        } catch (e) {
+            api.sendMessage(`Serwer wyłączony!`, threadID, null, messageID);
+            console.error(e);
+        }
     }
 };

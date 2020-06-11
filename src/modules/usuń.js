@@ -8,7 +8,7 @@ module.exports = {
     name: `usuń`,
     description: `Zabiera komuś możliwość używania everyone.`,
     args: 1,
-    groupOnly: false,
+    groupOnly: true,
     aliases: [`rm`, `remove`, `u`],
     usage: `(everyone lub @ktoś)`,
     async execute(api, msg, args) {

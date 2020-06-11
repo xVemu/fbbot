@@ -8,7 +8,7 @@ module.exports = {
     name: `dodaj`,
     description: `Pozwala komuś na everyone.`,
     args: 1,
-    groupOnly: false,
+    groupOnly: true,
     aliases: [`add`, `d`],
     usage: `(everyone lub @ktoś)`,
     async execute(api, msg, args) {

@@ -9,9 +9,9 @@ module.exports = {
     args: 0,
     groupOnly: false,
     async execute(api, msg) {
-        const {threadID, messageID} = msg
+        const {threadID, messageID} = msg;
         try {
-            const { data } = await axios(`https://api.mcsrvstat.us/2/vemu.ddns.net`);
+            const { data } = await axios.get(`https://api.mcsrvstat.us/2/vemu.ddns.net`);
             if (!data.online) return api.sendMessage(`Serwer wyłączony!`, threadID, null, messageID);
             const { players: { online }, players: { list = undefined } } = data;
             let msg = `Gracze: ${online}\n`;

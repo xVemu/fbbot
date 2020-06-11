@@ -1,21 +1,32 @@
 `use strict`;
-const request = require(`request-promise-native`),
+
+const axios = require(`axios`).default,
     cheerio = require(`cheerio`),
     fsp = require(`fs`).promises,
     fs = require(`fs`);
 
-module.exports = async (message, api) => {
-    const end = api.sendTypingIndicator(message.threadID);
-    const $ = await request({ uri: `https://kwejk.pl/losowy`, transform: body => cheerio.load(body) });
-    const text = $(`.box.fav.picture.full`).children(`.content`).children(`h1`).text();
-    const imgurl = $(`.full-image`).attr(`src`);
-    if (imgurl === undefined) return `Wystąpił błąd`;
-    else {
-        const imgbody = await request({ uri: imgurl, encoding: `binary` });
-        await fsp.writeFile(`meme.png`, imgbody, `binary`);
-        const msg = { attachment: fs.createReadStream(`meme.png`), body: text };
-        fsp.unlink(`meme.png`);
-        end();
-        return msg;
+
+module.exports = {
+    name: `mem`,
+    description: `Wysyła losowy mem.`,
+    args: 0,
+    groupOnly: false,
+    aliases: [`meme`],
+    async execute(api, msg) {
+        const { threadID, messageID } = msg;
+        const end = api.sendTypingIndicator(threadID);
+        const { data } = await axios.get(`https://kwejk.pl/losowy`);
+        const $ = cheerio.load(data);
+        const text = $(`.box.fav.picture.full`).children(`.content`).children(`h1`).text();
+        const imgurl = $(`.full-image`).attr(`src`);
+        if (imgurl === undefined) api.sendMessage(`Wystąpił błąd`, threadID, null, messageID);
+        else {
+            const imgbody = await axios.get(imgurl, { responseType: `arraybuffer` });
+            await fsp.writeFile(`meme.png`, imgbody.data);
+            const msg = { attachment: fs.createReadStream(`meme.png`), body: text };
+            await fsp.unlink(`meme.png`);
+            end();
+            api.sendMessage(msg, threadID);
+        }
     }
 };

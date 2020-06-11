@@ -14,8 +14,8 @@ module.exports = {
     async execute(api, msg) {
         const end = api.sendTypingIndicator(msg.threadID);
         const { data: { image } } = await axios.get(`https://randomfox.ca/floof/`);
-        const attachment = await axios.get(image, {responseType: `arraybuffer`});
-        await fsp.writeFile(`foxy.jpg`, attachment.data);
+        const { data } = await axios.get(image, {responseType: `arraybuffer`});
+        await fsp.writeFile(`foxy.jpg`, data);
         const attachments = { attachment: fs.createReadStream(`foxy.jpg`) };
         end();
         api.sendMessage(attachments, msg.threadID);

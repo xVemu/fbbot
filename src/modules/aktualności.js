@@ -9,8 +9,8 @@ module.exports = {
     groupOnly: false,
     aliases: [`news`, `a`],
     async execute(api, msg) {
-        const response = await axios(`https://zsme.tarnow.pl`);
-        const $ = cheerio.load(response.data);
+        const { data } = await axios(`https://zsme.tarnow.pl`);
+        const $ = cheerio.load(data);
         api.sendMessage($(`.article-entry`).first().text(), msg.threadID);
     }
 };

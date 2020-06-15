@@ -51,7 +51,7 @@ login(appState, { selfListen: true }, (err, api) => { //test account id : 100039
         const cmdName = args.shift().toLowerCase();
         const cmd = api.cmds.get(cmdName) || api.cmds.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
         if (!cmd) return;
-        if (cmd.groupOnly && msg.isGroup) return api.sendMessage(`Komenda działa tylko w grupach`, msg.threadID, null, msg.messageID);
+        if (cmd.groupOnly && !msg.isGroup) return api.sendMessage(`Komenda działa tylko w grupach`, msg.threadID, null, msg.messageID);
         if (cmd.args > 0 && args.length < cmd.args) {
             let reply = `Nie podałeś poprawnych argumentów!`;
 

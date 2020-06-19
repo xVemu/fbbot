@@ -34,6 +34,7 @@ module.exports = {
         if (cmd.aliases) data.push(`Skróty: ${cmd.aliases.join(`, `)}`);
         if (cmd.description) data.push(`Opis: ${cmd.description}`);
         if (cmd.usage) data.push(`Użycie: ${prefix}${cmd.name} ${cmd.usage}`);
+        if (cmd.groupOnly) data.push(`Tylko w grupach`);
 
         api.sendMessage(data.join(`\n`), threadID);
     }

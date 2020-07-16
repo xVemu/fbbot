@@ -49,7 +49,15 @@ login(appState, { selfListen: true }, (err, api) => { //test account id : 100039
         if (!argu) return;
         const args = argu.map(v => v.replace(/["`]/g, ``));
         const cmdName = args.shift().toLowerCase();
-        const cmd = api.cmds.get(cmdName) || api.cmds.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+        let cmd = api.cmds.get(cmdName);
+        if (!cmd) {
+            for (const [key, value] of api.cmds.entries()) {
+                if (value.aliases && value.aliases.includes(cmdName)) {
+                    cmd = api.cmds.get(key);
+                    break;
+                }
+            }
+        }
         if (!cmd) return;
         if (cmd.groupOnly && !msg.isGroup) return api.sendMessage(`Komenda działa tylko w grupach`, msg.threadID, null, msg.messageID);
         if (cmd.args > 0 && args.length < cmd.args) {

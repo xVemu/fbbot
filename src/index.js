@@ -16,9 +16,9 @@ const rl = readline.createInterface({
 const cmdFiles = fs.readdirSync(`src/modules`).filter(file => file.endsWith(`.js`));
 
 
-if (!fs.existsSync(`appstate.json`)) {
+if (!fs.existsSync(account)) {
     notexist = true;
-    appState = { email: `kamilox26@gmail.com`, password: `` };
+    appState = { email: ``, password: `` };
 } else appState = { appState: JSON.parse(fs.readFileSync(account, `utf8`)) };
 
 login(appState, { selfListen: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
@@ -41,7 +41,7 @@ login(appState, { selfListen: true }, (err, api) => { //test account id : 100039
         const cmd = require(`./modules/${file}`);
         api.cmds.set(cmd.name, cmd);
     }
-    if (notexist) fs.writeFileSync(`appstate.json`, JSON.stringify(api.getAppState()));
+    if (notexist) fs.writeFileSync(account, JSON.stringify(api.getAppState()));
     api.listenMqtt((err, msg) => {
         if (err) return console.error(err);
         if (!msg.body || !msg.body.startsWith(prefix)) return;

@@ -3,7 +3,7 @@
 const fs = require(`fs`),
     login = require(`facebook-chat-api`),
     readline = require(`readline`),
-    { prefix, account } = require(`../config.json`);
+    { prefix, account, email, password } = require(`../config.json`);
 
 let notexist,
     appState;
@@ -18,7 +18,7 @@ const cmdFiles = fs.readdirSync(`src/modules`).filter(file => file.endsWith(`.js
 
 if (!fs.existsSync(account)) {
     notexist = true;
-    appState = { email: ``, password: `` };
+    appState = { email: email, password: password };
 } else appState = { appState: JSON.parse(fs.readFileSync(account, `utf8`)) };
 
 login(appState, { selfListen: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294

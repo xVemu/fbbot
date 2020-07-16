@@ -4,6 +4,8 @@
     "prefix": "!",
     "lolKey": "here goes your lol dev key",
     "account": "appstate.json", //dont edit
+    "email": "your facebook email goes here",
+    "password": "your facebook password goes here",
     "groupOne": [
         "100004900923817",
         "100009846706909",

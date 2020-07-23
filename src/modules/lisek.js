@@ -1,8 +1,7 @@
 `use strict`;
 
 const axios = require(`axios`).default,
-    fs = require(`fs`),
-    fsp = require(`fs`).promises;
+    https = require(`https`);
 
 
 module.exports = {
@@ -14,11 +13,9 @@ module.exports = {
     async execute(api, msg) {
         const end = api.sendTypingIndicator(msg.threadID);
         const { data: { image } } = await axios.get(`https://randomfox.ca/floof/`);
-        const { data } = await axios.get(image, { responseType: `arraybuffer` });
-        await fsp.writeFile(`foxy.jpg`, data);
-        const attachments = { attachment: fs.createReadStream(`foxy.jpg`) };
-        end();
-        api.sendMessage(attachments, msg.threadID);
-        await fsp.unlink(`foxy.jpg`);
+        https.get(image).on(`response`, stream => {
+            end();
+            api.sendMessage({ attachment: stream }, msg.threadID);
+        });
     }
 };

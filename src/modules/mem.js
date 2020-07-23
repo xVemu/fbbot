@@ -1,9 +1,8 @@
 `use strict`;
 
 const axios = require(`axios`).default,
-    cheerio = require(`cheerio`),
-    fsp = require(`fs`).promises,
-    fs = require(`fs`);
+    https = require(`https`),
+    cheerio = require(`cheerio`);
 
 
 module.exports = {
@@ -21,12 +20,10 @@ module.exports = {
         const imgurl = $(`.full-image`).attr(`src`);
         if (imgurl === undefined) api.sendMessage(`Wystąpił błąd`, threadID, null, messageID);
         else {
-            const imgbody = await axios.get(imgurl, { responseType: `arraybuffer` });
-            await fsp.writeFile(`meme.png`, imgbody.data);
-            const msg = { attachment: fs.createReadStream(`meme.png`), body: text };
-            await fsp.unlink(`meme.png`);
-            end();
-            api.sendMessage(msg, threadID);
+            https.get(imgurl).on(`response`, stream => {
+                end();
+                api.sendMessage({ attachment: stream, body: text }, msg.threadID);
+            });
         }
     }
 };

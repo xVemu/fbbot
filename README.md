@@ -14,10 +14,10 @@ Facebook bot with many features.
 - !mem - Sends a random meme.
 
 ## Pings:
-- !everyone - Pings everyone
-- !dodaj - allows someone to use !everyone
-- !usuń - forbids someone to use !everoyne
-- !mojagrupa - ping everyone in group
+- !everyone - Pings everyone.
+- !dodaj - allows someone to use !everyone.
+- !usuń - forbids someone to use !everoyne.
+- !mojagrupa - ping everyone in group.
 
 ## Random:
 - !moneta - Flips a coin.

@@ -25,13 +25,13 @@ Facebook bot with many features.
 
 ## Links:
 - !apka - Sends link to zsme's mobile app.
-- !systemy - Sends link to systemy
+- !systemy - Sends link to systemy.
 
 ## Other:
 - !help - List all of my commands or info about a specific command.
 - !aktualności - Sends the newest news from zsme.tarnow.pl
 - !kiju - Sends how much Kiju was in the middle. 
 - !lol - Sends info about player in League Of Legends.
-- !mc - Sends if minecraft server is running
-- !miejski - Sends an explanation for given word
-- !wiadomości - Sends number of sended messages
+- !mc - Sends if minecraft server is running.
+- !miejski - Sends an explanation for given word.
+- !wiadomości - Sends number of sended messages.

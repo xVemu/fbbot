@@ -1,5 +1,5 @@
 'use strict';
-const cookie_chrome = require(`../appstate.json`); //Manually export facebook.com and messenger.com cookies using http://www.editthiscookie.com/
+const cookie_chrome = require(`../appstate.json`); //Manually export facebook.com and messenger.com cookies by using http://www.editthiscookie.com/
 let cookie = [];
 
 for (let cch of cookie_chrome) {
@@ -12,4 +12,4 @@ for (let cch of cookie_chrome) {
     cookie.push(c);
 }
 
-require(`fs`).writeFileSync(`../appstate.json`, JSON.stringify(cookie));
+require(`fs`).writeFileSync(`appstate.json`, JSON.stringify(cookie));

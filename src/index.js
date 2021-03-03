@@ -21,7 +21,7 @@ if (!fs.existsSync(account)) {
     appState = { email: email, password: password };
 } else appState = { appState: JSON.parse(fs.readFileSync(account, `utf8`)) };
 
-login(appState, { selfListen: true }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
+login(appState, { selfListen: true, userAgent: `Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Mobile Safari/537.36` }, (err, api) => { //test account id : 100039047052757 , test account microsft edge: 100038916831294
     if (err) {
         switch (err.error) {
             case `login-approval`:

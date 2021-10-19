@@ -1,7 +1,7 @@
 `use strict`;
 
 const fs = require(`fs`),
-    login = require(`facebook-chat-api`),
+    login = require(`facebook-chat-api-v2`),
     readline = require(`readline`),
     { prefix, account, email, password } = require(`../config.json`);
 
